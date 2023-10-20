@@ -1,7 +1,7 @@
 module Spree
   module Admin
     class GiftCardsController < Spree::Admin::ResourceController
-      before_filter :find_gift_card_variants, except: :destroy
+      before_action :find_gift_card_variants, except: :destroy
 
       def create
         @object.assign_attributes(gift_card_params)
@@ -23,7 +23,7 @@ module Spree
           Spree::GiftCard.where("email ilike ?", "%#{params[:email]}%").order(created_at: :desc).page(params[:page]).
           per(params[:per_page] || Spree::Config[:orders_per_page])
         else
-          super.order(created_at: :desc).page(params[:page]).per(Spree::Config[:orders_per_page])
+          super.order(created_at: :desc).page(params[:page]).per(Spree::Config[:admin_orders_per_page])
         end
       end
 
